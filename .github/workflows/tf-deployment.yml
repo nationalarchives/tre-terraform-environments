@@ -1,4 +1,4 @@
-name: Terraform platform deployment
+name: Terraform environment deployment
 on:
   workflow_dispatch:
 
