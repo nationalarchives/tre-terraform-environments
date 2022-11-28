@@ -7,7 +7,7 @@ permissions:
   contents: write
 jobs:
   terraform-deployment:
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-468/adding-reusable-workflows
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
       environment: dev
       tf_dir: environments
