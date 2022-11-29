@@ -1,3 +1,6 @@
 [submodule "modules/common"]
 	path = modules/common
 	url = https://github.com/nationalarchives/tre-tf-module-common.git
+[submodule "modules/tre-forward"]
+	path = modules/tre-forward
+	url = https://github.com/nationalarchives/tre-tf-module-tre-forward.git
