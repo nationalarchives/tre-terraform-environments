@@ -4,3 +4,9 @@
 [submodule "modules/tre-forward"]
 	path = modules/tre-forward
 	url = https://github.com/nationalarchives/tre-tf-module-tre-forward.git
+[submodule "modules/step_functions/validate-bag"]
+	path = modules/step_functions/validate-bag
+	url = https://github.com/nationalarchives/tre-tf-module-validate-bag.git
+[submodule "modules/step_functions/dri_preingest_sip_generation"]
+	path = modules/step_functions/dri_preingest_sip_generation
+	url = https://github.com/nationalarchives/tre-tf-module-dpsg.git
