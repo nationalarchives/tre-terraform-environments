@@ -1,0 +1,12 @@
+[submodule "tre-forward"]
+	path = tre-forward
+	url = https://github.com/nationalarchives/tre-tf-module-tre-forward.git
+[submodule "common"]
+	path = common
+	url = https://github.com/nationalarchives/tre-tf-module-common.git
+[submodule "step_functions/validate-bag"]
+	path = step_functions/validate-bag
+	url = https://github.com/nationalarchives/tre-tf-module-validate-bag.git
+[submodule "step_functions/dri_preingest_sip_generation"]
+	path = step_functions/dri_preingest_sip_generation
+	url = https://github.com/nationalarchives/tre-tf-module-dpsg.git
