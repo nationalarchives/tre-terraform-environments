@@ -10,7 +10,7 @@ jobs:
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
       environment: dev
-      tf_dir: environments
+      tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
       AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
