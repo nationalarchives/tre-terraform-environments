@@ -24,7 +24,9 @@ variable "prefix" {
   default     = "tre"
 }
 
-
+variable "env" {
+  
+}
 variable "assume_role" {
   description = "role ARNs to be assumed"
   type        = string
