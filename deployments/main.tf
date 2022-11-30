@@ -37,6 +37,10 @@ variable "external_id" {
   type        = string
 }
 
+variable "permissions_boundary" {
+  
+}
+
 data "aws_iam_policy_document" "lambda_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -51,5 +55,6 @@ data "aws_iam_policy_document" "lambda_assume_role_policy" {
 resource "aws_iam_role" "tre_forward_lambda_role" {
   name               = "${var.env}-${var.prefix}-forward-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role_policy.json
+  permissions_boundary = var.permissions_boundary
 }
 
