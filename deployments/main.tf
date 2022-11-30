@@ -18,6 +18,13 @@ terraform {
   }
 }
 
+variable "prefix" {
+  description = "Transformation Engine prefix"
+  type        = string
+  default     = "tre"
+}
+
+
 variable "assume_role" {
   description = "role ARNs to be assumed"
   type        = string
