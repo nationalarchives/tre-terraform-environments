@@ -6,13 +6,23 @@ permissions:
   id-token: write
   contents: write
 jobs:
-  terraform-deployment:
+  # terraform-mock-deployment:
+  #   uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+  #   with:
+  #     environment: mock
+  #     tf_dir: deployments
+  #   secrets:
+  #     ROLE_ARN: ${{ secrets.ROLE_ARN }}
+  #     AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
+  #     AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
+  #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+  terraform-dev-deployment:
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
-      environment: mock
+      environment: dev
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
       AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
       AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
-      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}  
