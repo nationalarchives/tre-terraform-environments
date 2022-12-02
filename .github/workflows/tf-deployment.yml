@@ -27,6 +27,8 @@ jobs:
       AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
   terraform-test-deployment:
+    needs:
+      - terraform-dev-deployment  
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
       environment: test
