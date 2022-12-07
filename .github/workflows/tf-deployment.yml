@@ -6,70 +6,56 @@ permissions:
   id-token: write
   contents: write
 jobs:
-  # terraform-mock-deployment:
-  #   uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
-  #   with:
-  #     environment: mock
-  #     tf_dir: deployments
-  #   secrets:
-  #     ROLE_ARN: ${{ secrets.ROLE_ARN }}
-  #     AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
-  #     AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
-  #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-  # terraform-dev-deployment:
-  #   uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
-  #   with:
-  #     environment: dev
-  #     tf_dir: deployments
-  #   secrets:
-  #     ROLE_ARN: ${{ secrets.ROLE_ARN }}
-  #     AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
-  #     AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
-  #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-  # terraform-test-deployment:
-  #   needs:
-  #     - terraform-dev-deployment  
-  #   uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
-  #   with:
-  #     environment: test
-  #     tf_dir: deployments
-  #   secrets:
-  #     ROLE_ARN: ${{ secrets.ROLE_ARN }}
-  #     AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
-  #     AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
-  #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-  # approve:
-  #   needs: 
-  #     - terraform-test-deployment
-  #   runs-on: ubuntu-latest
-  #   environment: poc-manual-step
-  #   steps:
-  #     - name: Manual Approve Info
-  #       run: |
-  #         terraform -v
-  #         echo ${{ github.triggering_actor }}
-  #         echo ${{ github.actor }}      
-  # terraform-int-deployment:
-  #   needs:
-  #     - approve  
-  #   uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
-  #   with:
-  #     environment: int
-  #     tf_dir: deployments
-  #   secrets:
-  #     ROLE_ARN: ${{ secrets.ROLE_ARN }}
-  #     AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
-  #     AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
-  #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+  terraform-dev-deployment:
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    with:
+      environment: dev
+      tf_dir: deployments
+    secrets:
+      ROLE_ARN: ${{ secrets.ROLE_ARN }}
+      AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+  terraform-test-deployment:
+    needs:
+      - terraform-dev-deployment  
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    with:
+      environment: test
+      tf_dir: deployments
+    secrets:
+      ROLE_ARN: ${{ secrets.ROLE_ARN }}
+      AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+  approve:
+    needs: 
+      - terraform-test-deployment
+    runs-on: ubuntu-latest
+    environment: poc-manual-step
+    steps:
+      - name: Manual Approve Info
+        run: |
+          terraform -v
+          echo ${{ github.triggering_actor }}
+          echo ${{ github.actor }}      
+  terraform-int-deployment:
+    needs:
+      - approve  
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    with:
+      environment: int
+      tf_dir: deployments
+    secrets:
+      ROLE_ARN: ${{ secrets.ROLE_ARN }}
+      AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
   terraform-staging-deployment:
-    # needs:
-    #   - terraform-int-deployment
+    needs:
+      - terraform-int-deployment
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
       environment: staging
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
-      AWS_PARAM_STORE_TF_VARS_KEY: ${{ secrets.AWS_PARAM_STORE_TF_VARS_KEY }}
       AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
