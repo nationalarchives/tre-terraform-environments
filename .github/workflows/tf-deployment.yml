@@ -36,10 +36,10 @@ jobs:
         run: |
           terraform -v
           echo ${{ github.triggering_actor }}
-          echo ${{ github.actor }}      
+          echo ${{ github.actor }}
   terraform-int-deployment:
     needs:
-      - approve  
+      - approve
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
       environment: int
@@ -51,6 +51,28 @@ jobs:
   terraform-staging-deployment:
     needs:
       - terraform-int-deployment
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    with:
+      environment: staging
+      tf_dir: deployments
+    secrets:
+      ROLE_ARN: ${{ secrets.ROLE_ARN }}
+      AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+  prod-approval:
+    needs: 
+      - terraform-staging-deployment
+    runs-on: ubuntu-latest
+    environment: poc-manual-step
+    steps:
+      - name: Manual Approve Info
+        run: |
+          terraform -v
+          echo ${{ github.triggering_actor }}
+          echo ${{ github.actor }}
+  terraform-prod-deployment:
+    needs:
+      - prod-approval
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
       environment: staging
