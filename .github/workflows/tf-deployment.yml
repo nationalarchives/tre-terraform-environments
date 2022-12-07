@@ -75,7 +75,7 @@ jobs:
       - prod-approval
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
     with:
-      environment: staging
+      environment: prod
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
