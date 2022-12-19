@@ -2,13 +2,13 @@
 # Common
 
 module "common" {
-  source                = "../modules/common"
-  env                   = var.environment_name
-  prefix                = var.prefix
-  account_id            = data.aws_caller_identity.aws.account_id
+  source                      = "../modules/common"
+  env                         = var.environment_name
+  prefix                      = var.prefix
+  account_id                  = data.aws_caller_identity.aws.account_id
   tre_permission_boundary_arn = var.tre_permission_boundary_arn
-  common_version        = var.common_version
-  common_image_versions = var.common_image_versions
+  common_version              = var.common_version
+  common_image_versions       = var.common_image_versions
   tre_slack_alerts_publishers = [
     module.dri_preingest_sip_generation.dri_preingest_sip_generation_role_arn,
     module.validate_bagit.validate_bagit_role_arn
@@ -39,15 +39,15 @@ module "common" {
 # TRE Forward
 
 module "forward" {
-  source = "../modules/tre-forward"
-  env = var.environment_name
-  prefix = var.prefix
-  account_id = data.aws_caller_identity.aws.account_id
-  tre_permission_boundary_arn = var.tre_permission_boundary_arn
-  tre_out_topic_arn = module.common.common_tre_out_topic_arn
+  source                              = "../modules/tre-forward"
+  env                                 = var.environment_name
+  prefix                              = var.prefix
+  account_id                          = data.aws_caller_identity.aws.account_id
+  tre_permission_boundary_arn         = var.tre_permission_boundary_arn
+  tre_out_topic_arn                   = module.common.common_tre_out_topic_arn
   tre_dlq_alerts_lambda_function_name = module.common.tre_dlq_alerts_lambda_function_name
-  forward_version = var.forward_version
-  forward_image_versions = var.forward_image_versions
+  forward_version                     = var.forward_version
+  forward_image_versions              = var.forward_image_versions
 }
 
 # Validate BagIt
@@ -57,7 +57,7 @@ module "validate_bagit" {
   env                                 = var.environment_name
   prefix                              = var.prefix
   account_id                          = data.aws_caller_identity.aws.account_id
-  tre_permission_boundary_arn = var.tre_permission_boundary_arn
+  tre_permission_boundary_arn         = var.tre_permission_boundary_arn
   tre_data_bucket                     = module.common.common_tre_data_bucket
   vb_image_versions                   = var.vb_image_versions
   vb_version                          = var.vb_version
@@ -75,7 +75,7 @@ module "dri_preingest_sip_generation" {
   env                                 = var.environment_name
   prefix                              = var.prefix
   account_id                          = data.aws_caller_identity.aws.account_id
-  tre_permission_boundary_arn = var.tre_permission_boundary_arn
+  tre_permission_boundary_arn         = var.tre_permission_boundary_arn
   common_tre_slack_alerts_topic_arn   = module.common.common_tre_slack_alerts_topic_arn
   dpsg_image_versions                 = var.dpsg_image_versions
   dpsg_version                        = var.dpsg_version

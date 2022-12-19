@@ -1,7 +1,7 @@
 provider "aws" {
   region = "eu-west-2"
   assume_role {
-    role_arn = var.assume_role
+    role_arn    = var.assume_role
     external_id = var.external_id
   }
 }

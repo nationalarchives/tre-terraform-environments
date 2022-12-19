@@ -54,7 +54,7 @@ variable "forward_version" {
 variable "forward_image_versions" {
   description = "Latest version of Images for Lambda Functions"
   type = object({
-    tre_forward     = string
+    tre_forward = string
   })
 }
 
@@ -118,5 +118,5 @@ variable "tre_out_subscribers" {
 
 variable "tre_permission_boundary_arn" {
   description = "ARN of the TRE permission boundary policy"
-  type = string
+  type        = string
 }
