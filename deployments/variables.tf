@@ -67,8 +67,8 @@ variable "vb_image_versions" {
   description = "Latest image version for Lambda Functions"
   type = object({
     tre_sqs_sf_trigger          = string
-    tre_vb_validate_bagit       = string
-    tre_vb_validate_bagit_files = string
+    tre_vb_bag_validation       = string
+    tre_vb_bag_files_validation = string
   })
 }
 
