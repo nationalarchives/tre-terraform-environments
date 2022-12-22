@@ -1,6 +1,4 @@
-
 # Common
-
 module "common" {
   source                      = "../modules/common"
   env                         = var.environment_name
@@ -34,10 +32,11 @@ module "common" {
   ]
   tre_out_subscriptions = local.tre_out_subscriptions
   tre_out_subscribers   = var.tre_out_subscribers
+  ecr_uri_host          = var.ecr_uri_host
+  ecr_uri_repo_prefix   = var.ecr_uri_repo_prefix
 }
 
 # TRE Forward
-
 module "forward" {
   source                              = "../modules/tre-forward"
   env                                 = var.environment_name
@@ -48,10 +47,11 @@ module "forward" {
   tre_dlq_alerts_lambda_function_name = module.common.tre_dlq_alerts_lambda_function_name
   forward_version                     = var.forward_version
   forward_image_versions              = var.forward_image_versions
+  ecr_uri_host                        = var.ecr_uri_host
+  ecr_uri_repo_prefix                 = var.ecr_uri_repo_prefix
 }
 
 # Validate BagIt
-
 module "validate_bagit" {
   source                              = "../modules/step-functions/validate-bag"
   env                                 = var.environment_name
@@ -66,10 +66,11 @@ module "validate_bagit" {
   tdr_sqs_retry_arn                   = var.tdr_sqs_retry_arn
   common_tre_internal_topic_arn       = module.common.common_tre_internal_topic_arn
   tre_dlq_alerts_lambda_function_name = module.common.tre_dlq_alerts_lambda_function_name
+  ecr_uri_host                        = var.ecr_uri_host
+  ecr_uri_repo_prefix                 = var.ecr_uri_repo_prefix
 }
 
 # DRI Preigest SIP Generation
-
 module "dri_preingest_sip_generation" {
   source                              = "../modules/step-functions/dri-preingest-sip-generation"
   env                                 = var.environment_name
@@ -81,4 +82,6 @@ module "dri_preingest_sip_generation" {
   dpsg_version                        = var.dpsg_version
   common_tre_internal_topic_arn       = module.common.common_tre_internal_topic_arn
   tre_dlq_alerts_lambda_function_name = module.common.tre_dlq_alerts_lambda_function_name
+  ecr_uri_host                        = var.ecr_uri_host
+  ecr_uri_repo_prefix                 = var.ecr_uri_repo_prefix
 }
