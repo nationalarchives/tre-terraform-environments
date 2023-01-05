@@ -6,7 +6,7 @@ permissions:
   contents: write
 jobs:
   terraform-dev-deployment:
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-543/github-action-env-names
     with:
       environment: dev
       environment-for-approval: apply-tf-plan-to-dev
@@ -18,7 +18,7 @@ jobs:
   terraform-test-deployment:
     needs:
       - terraform-dev-deployment  
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-543/github-action-env-names
     with:
       environment: test
       environment-for-approval: apply-tf-plan-to-test
@@ -41,7 +41,7 @@ jobs:
   terraform-int-deployment:
     needs:
       - approve
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-543/github-action-env-names
     with:
       environment: int
       environment-for-approval: apply-tf-plan-to-int
@@ -53,7 +53,7 @@ jobs:
   terraform-staging-deployment:
     needs:
       - terraform-int-deployment
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-543/github-action-env-names
     with:
       environment: staging
       environment-for-approval: apply-tf-plan-to-staging
@@ -76,7 +76,7 @@ jobs:
   terraform-prod-deployment:
     needs:
       - prod-approval
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-543/github-action-env-names
     with:
       environment: prod
       environment-for-approval: apply-tf-plan-to-prod
