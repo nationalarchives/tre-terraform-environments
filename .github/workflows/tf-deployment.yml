@@ -27,7 +27,7 @@ jobs:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
       AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-  approve:
+  deploy-to-int-checkpoint:
     needs: 
       - terraform-test-deployment
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
           echo ${{ github.actor }}
   terraform-int-deployment:
     needs:
-      - approve
+      - deploy-to-int-checkpoint
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-543/github-action-env-names
     with:
       environment: int
@@ -62,7 +62,7 @@ jobs:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
       AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-  prod-approval:
+  deploy-to-prod-checkpoint:
     needs: 
       - terraform-staging-deployment
     runs-on: ubuntu-latest
@@ -75,7 +75,7 @@ jobs:
           echo ${{ github.actor }}
   terraform-prod-deployment:
     needs:
-      - prod-approval
+      - deploy-to-prod-checkpoint
     uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@feature/DTE-543/github-action-env-names
     with:
       environment: prod
