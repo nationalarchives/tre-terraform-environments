@@ -1,15 +1,15 @@
 name: Terraform environment deployment
 on:
   workflow_dispatch:
-
 permissions:
   id-token: write
   contents: write
 jobs:
   terraform-dev-deployment:
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@0.0.4
     with:
       environment: dev
+      environment-for-approval: apply-tf-plan-to-dev
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
@@ -18,19 +18,20 @@ jobs:
   terraform-test-deployment:
     needs:
       - terraform-dev-deployment  
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@0.0.4
     with:
       environment: test
+      environment-for-approval: apply-tf-plan-to-test
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
       AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-  approve:
+  deploy-to-int-checkpoint:
     needs: 
       - terraform-test-deployment
     runs-on: ubuntu-latest
-    environment: poc-manual-step
+    environment: deployment-checkpoint-int
     steps:
       - name: Manual Approve Info
         run: |
@@ -39,10 +40,11 @@ jobs:
           echo ${{ github.actor }}
   terraform-int-deployment:
     needs:
-      - approve
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+      - deploy-to-int-checkpoint
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@0.0.4
     with:
       environment: int
+      environment-for-approval: apply-tf-plan-to-int
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
@@ -51,19 +53,20 @@ jobs:
   terraform-staging-deployment:
     needs:
       - terraform-int-deployment
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@0.0.4
     with:
       environment: staging
+      environment-for-approval: apply-tf-plan-to-staging
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
       AWS_PARAM_STORE_TF_BACKEND_KEY: ${{ secrets.AWS_PARAM_STORE_TF_BACKEND_KEY }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-  prod-approval:
+  deploy-to-prod-checkpoint:
     needs: 
       - terraform-staging-deployment
     runs-on: ubuntu-latest
-    environment: poc-manual-step
+    environment: deployment-checkpoint-prod
     steps:
       - name: Manual Approve Info
         run: |
@@ -72,10 +75,11 @@ jobs:
           echo ${{ github.actor }}
   terraform-prod-deployment:
     needs:
-      - prod-approval
-    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@main
+      - deploy-to-prod-checkpoint
+    uses: nationalarchives/tre-github-actions/.github/workflows/tf-plan-approve-apply.yml@0.0.4
     with:
       environment: prod
+      environment-for-approval: apply-tf-plan-to-prod
       tf_dir: deployments
     secrets:
       ROLE_ARN: ${{ secrets.ROLE_ARN }}
