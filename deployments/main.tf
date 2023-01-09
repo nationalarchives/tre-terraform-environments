@@ -56,7 +56,6 @@ module "validate_bagit" {
   source                              = "../modules/step-functions/validate-bag"
   env                                 = var.environment_name
   prefix                              = var.prefix
-  account_id                          = data.aws_caller_identity.aws.account_id
   tre_permission_boundary_arn         = var.tre_permission_boundary_arn
   tre_data_bucket                     = module.common.common_tre_data_bucket
   vb_image_versions                   = var.vb_image_versions
