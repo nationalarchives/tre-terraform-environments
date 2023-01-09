@@ -62,8 +62,6 @@ module "validate_bagit" {
   vb_image_versions                   = var.vb_image_versions
   vb_version                          = var.vb_version
   common_tre_slack_alerts_topic_arn   = module.common.common_tre_slack_alerts_topic_arn
-  tdr_sqs_retry_url                   = var.tdr_sqs_retry_url
-  tdr_sqs_retry_arn                   = var.tdr_sqs_retry_arn
   common_tre_internal_topic_arn       = module.common.common_tre_internal_topic_arn
   tre_dlq_alerts_lambda_function_name = module.common.tre_dlq_alerts_lambda_function_name
   ecr_uri_host                        = var.ecr_uri_host
