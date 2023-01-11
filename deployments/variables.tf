@@ -24,16 +24,6 @@ variable "external_id" {
   type        = string
 }
 
-variable "tdr_sqs_retry_url" {
-  description = "The TDR retry SQS Queue URL"
-  type        = string
-}
-
-variable "tdr_sqs_retry_arn" {
-  description = "The TDR retry SQS Queue ARN"
-  type        = string
-}
-
 variable "common_version" {
   description = "(Updates if Common TRE Lambda function versions change)"
   type        = string
